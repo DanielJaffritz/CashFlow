@@ -1,4 +1,7 @@
+import HomePageNav from "~/components/HomePageNav";
 import type { Route } from "./+types/home";
+import Hero from "~/components/Hero";
+import Foot from "~/components/Foot";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,6 +12,10 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <h1>home</h1>
+    <>
+      <HomePageNav />
+      <Hero />
+      <Foot />
+    </>
   )
 }

@@ -9,10 +9,4 @@
 html,
 body {
   @apply bg-white;
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
   }
-}
-h1 {
-  @apply text-black;
-}
