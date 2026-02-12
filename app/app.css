@@ -4,9 +4,20 @@
   --font-sans: "league Spartan", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --color-button: #d1a221;
+  --color-bg-app: #fff8f2;
 }
 
 html,
 body {
   @apply bg-white;
   }
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}   

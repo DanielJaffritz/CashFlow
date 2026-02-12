@@ -2,7 +2,7 @@ import {getAuth, signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider,
 import {getFirestore, doc, setDoc} from 'firebase/firestore';
 import { useState, type FormEvent} from 'react';
 import { Link, useNavigate } from 'react-router';
-import { getFriendlyErrorMessage } from '~/utils/translator';
+import { getFriendlyErrorMessage } from '~/constants/translator';
 
 const SignIn = () => {
 

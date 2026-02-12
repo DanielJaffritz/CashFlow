@@ -1,4 +1,4 @@
-import 'config/firebase.ts'
+import './config/firebase'
 import {
   isRouteErrorResponse,
   Links,
@@ -10,7 +10,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { AuthProvider } from 'hooks/authContext';
+import { AuthProvider } from '~/hooks/authContext';
 
 export const links: Route.LinksFunction = () => [
   {rel: "icon", href: "/favicon.png"},
