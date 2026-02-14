@@ -22,6 +22,7 @@ const dashboard = () => {
                 </div>
               </div>
               <LinealChart />
+              <h1>welcome</h1>
             </div>
           </section>
     </div>

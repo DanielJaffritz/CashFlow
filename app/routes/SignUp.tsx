@@ -19,6 +19,7 @@ const SignUp = () => {
                 username: username,
                 email: user.email,
                 createdAt: new Date(),
+                balance: 0,
                 role: "user"
             });
             setStatusText("Succesful Registration");
@@ -50,6 +51,7 @@ const SignUp = () => {
                 username: user.displayName,
                 email: user.email,
                 createdAt: new Date(),
+                balance:0,
                 role: "user"
             });
             setStatusText('succesful Registration');

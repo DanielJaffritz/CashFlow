@@ -37,14 +37,6 @@ const SignIn = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-            
-      await setDoc(doc(db, "users", user.uid), {
-        username: user.displayName,
-        email: user.email,
-        createdAt: new Date(),
-        role: "user"
-      });
       setStatusText('succesful Login');
       navigate('/dashboard');
     }catch (error: any){

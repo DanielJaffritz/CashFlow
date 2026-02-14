@@ -1,15 +1,14 @@
 import { useAuth } from '~/hooks/authContext';
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
 import ExpenseDialog from '~/components/common/afterAuth/ExpenseDialog';
 import IncomeDialog from '~/components/common/afterAuth/IncomeDialog';
 import Expenses from '~/components/common/afterAuth/Expenses';
 import Menu from '~/components/layout/Menu';
 import TotalBalance from '~/components/common/afterAuth/TotalBalance';
+import TransactionsList from '~/components/common/afterAuth/TransactionsList';
 
 const Transactions = () => {
   const {user} = useAuth();
-  const navigate = useNavigate();
   const [openDialogIncome, setOpenDialogIncome] = useState(false);
   const [openDialogExpense, setOpenDialogExpense] = useState(false);
 
@@ -39,6 +38,7 @@ const Transactions = () => {
             <Expenses />
           </div>
         </div>
+        <TransactionsList />
       </div>
       <IncomeDialog isOpen={openDialogIncome} setIsOpen={setOpenDialogIncome} />
       <ExpenseDialog isOpen={openDialogExpense} setIsOpen={setOpenDialogExpense} />

@@ -5,12 +5,16 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --color-button: #d1a221;
   --color-bg-app: #fff8f2;
+  --color-general-text: #8b7344;
 }
 
 html,
 body {
   @apply bg-white;
   }
+label {
+  @apply p-2 cursor-pointer text-general-text transition-all
+}
 @layer base {
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
@@ -19,5 +23,24 @@ body {
   }
   input[type="number"] {
     -moz-appearance: textfield;
+  }
+  input[type="radio"] {
+    display: none;
+  }
+  input[type="radio"]:checked + label {
+  background-color: #ffffff;
+  color: #333333;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  }
+  input[type="checkbox"] {
+    display: none;
+  }
+  input[type=checkbox] + label {
+    background-color: #ffffff;
+    color: black;
+  }
+  input[type="checkbox"]:checked + label {
+    background-color: oklch(82.8% 0.189 84.429);
+
   }
 }   

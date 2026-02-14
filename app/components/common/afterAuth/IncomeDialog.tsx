@@ -1,33 +1,42 @@
-import { useCallback, useState, type Dispatch, type FormEvent, type SetStateAction } from "react";
+import {  useState, type FormEvent } from "react";
 import FileUploader from "./FileUploader";
 import { useBalanceStore } from "~/stores/useBalanceStore";
+import type { FormValue, DialogProps } from "~/interfaces";
+import { categories } from "~/constants";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { useAuth } from "~/hooks/authContext";
 
-interface IncomeDialogProps {
-    isOpen: boolean;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-interface balanceStore {
-    balance:number
-}
-interface FormValue {
-    amount:number;
-    category:string;
-    date:string;
-    description:string;
-    file: File | null | undefined;
-}
 
-const IncomeDialog = ({isOpen, setIsOpen}: IncomeDialogProps) => {
+const IncomeDialog = ({isOpen, setIsOpen}: DialogProps) => {
     const [file, setFile ] = useState<File | null>(null);
-    const {balance} = useBalanceStore() as balanceStore;
-    const increase = useBalanceStore((state:any) => state.increaseBalace)
+    const increase = useBalanceStore((state) => state.increase);
+    const db = getFirestore();
+    const {user} = useAuth();
 
     const handleFileSelect = (file: File | null) => {
         setFile(file)
     }
 
-    const handleSave = (values: FormValue) => {
-        increase(values.amount)
+    const handleSave = async (values: FormValue) => {
+        try {
+            await increase(values.amount, user!.uid);
+            
+            
+            await setDoc(doc(db, "transactions", user!.uid), {
+                userID: user!.uid,
+                amount: values.amount,
+                category: values.category,
+                date: values.date,
+                description: values.description,
+                file: values.file,
+                type:'income'
+            })
+            
+            setIsOpen(false)
+        }catch(error:any){
+            console.log(error)
+        }
+        
     }
 
     const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -40,7 +49,7 @@ const IncomeDialog = ({isOpen, setIsOpen}: IncomeDialogProps) => {
             description: formData.get('description') as string,
             file: file,
         }
-        handleSave(values)
+        handleSave(values);
     }
     if(!isOpen) return null;
     return (
@@ -53,27 +62,29 @@ const IncomeDialog = ({isOpen, setIsOpen}: IncomeDialogProps) => {
             </div>
             <div className="flex flex-col items-center justify-center">
                 <p className="text-zinc-600 mt-10">Transaction Amount</p>
-                <form>
+                <form onSubmit={HandleSubmit}>
                     <div className="flex flex-row items-center justify-center p-5">
                         <img src="assets/dollar.svg" width={40}/>
-                        <input type="number" name="amount" id="amount" placeholder="0.00" step="0.01" min='0' max='99999' className="w-full text-center text-6xl outline-0 mr-10 text-zinc-600"></input>
+                        <input type="number" name="amount" id="amount" placeholder="0.00" step="0.01" min='0' max='99999' required className="w-full text-center text-6xl outline-0 mr-10 text-zinc-600"></input>
                     </div>
                     <div className="flex flex-row justify-between p-10 w-full">
                         <div className="flex flex-col w-full">
                             <label>category</label>
-                            <select id="category" name="category" className=' outline-zinc-400 rounded-md p-3 mr-4 border border-zinc-200 bg-bg-app'>
-                                <option value='' disabled selected>Select Category </option>
-                                <option value='1'>emergencies</option>
+                            <select defaultValue='' id="category" name="category" required className=' outline-zinc-400 rounded-md p-3 mr-4 border border-zinc-200 bg-bg-app'>
+                                <option value='' disabled>Select Category </option>
+                                {categories.map((option, i) => (
+                                    <option value={i+1}>{option}</option>
+                                ))}
                             </select>
                         </div>
                         <div className="flex flex-col w-full">
                             <label>Date</label>
-                            <input id="date" name="date" type="date" className="p-3 mr-4 appearance-none outline-zinc-400 rounded-md border border-zinc-200 bg-bg-app"></input>
+                            <input id="date" name="date" type="date" required className="p-3 mr-4 appearance-none outline-zinc-400 rounded-md border border-zinc-200 bg-bg-app"></input>
                         </div>
                     </div>
                     <div className="w-full px-10">
                         <p>Description</p>
-                        <textarea id='description' name="description" rows={4} maxLength={110} placeholder="Description of your income" className="resize-none w-full outline-zinc-400 border border-zinc-200 bg-bg-app"></textarea>
+                        <textarea id='description' name="description" rows={4} maxLength={110} placeholder="Description of your income" required className="resize-none w-full outline-zinc-400 border border-zinc-200 bg-bg-app"></textarea>
                     </div>
                     <div className="w-full px-10 py-2">
                         <p>Receipt attachment(opcional)</p>

@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { useBalanceStore } from '~/stores/useBalanceStore';
 
 interface UserData {
   uid: string;
   email: string | null;
   username: string;
+  balance:number;
   createdAt: Date;
   role: string;
 }
@@ -32,17 +34,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (firebaseUser) {
           // Obtener datos adicionales del usuario desde Firestore
           const userDocRef = doc(db, 'users', firebaseUser.uid);
-          const userDoc = await getDoc(userDocRef);
+          const userIdDoc = await getDoc(userDocRef);
 
-          if (userDoc.exists()) {
-            const userData = userDoc.data();
+          if (userIdDoc.exists()) {
+            const userData = userIdDoc.data();
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email,
               username: userData.username,
+              balance: userData.balance,
               createdAt: userData.createdAt?.toDate?.() || new Date(),
               role: userData.role,
             });
+            useBalanceStore.getState().setBalance(userData.balance || 0)
           }
         } else {
           setUser(null);
