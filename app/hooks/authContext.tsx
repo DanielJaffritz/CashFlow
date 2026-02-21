@@ -2,21 +2,9 @@ import React, { createContext, useContext, useState, useEffect, type ReactNode }
 import { getAuth, onAuthStateChanged, type User } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useBalanceStore } from '~/stores/useBalanceStore';
+import type { AuthContextType, UserData } from '~/interfaces';
 
-interface UserData {
-  uid: string;
-  email: string | null;
-  username: string;
-  balance:number;
-  createdAt: Date;
-  role: string;
-}
 
-interface AuthContextType {
-  user: UserData | null;
-  loading: boolean;
-  error: string | null;
-}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

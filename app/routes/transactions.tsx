@@ -13,10 +13,13 @@ const Transactions = () => {
   const [openDialogExpense, setOpenDialogExpense] = useState(false);
 
   return (
-    <section className='flex flex-row bg-bg-app'>
-      <Menu />
-      <div className='w-full'>
-        <div className='shadow p-7'>
+    <section className='flex flex-row h-screen overflow-hidden bg-bg-app w-full'>
+      <aside>
+        <Menu />
+      </aside>
+     
+      <div className='flex-1 overflow-y-auto'>
+        <div className='shadow p-7 w-full'>
           <div className=' flex flex-row items-center justify-between'>
             <div className=''>
               <h1 className='text-7xl font-semibold'>Transactions</h1>
@@ -33,7 +36,7 @@ const Transactions = () => {
               </button>          
             </div>
           </div>
-          <div className='flex flex-row mt-2'>
+          <div className='flex flex-row mt-2 w-full'>
             <TotalBalance />
             <Expenses />
           </div>

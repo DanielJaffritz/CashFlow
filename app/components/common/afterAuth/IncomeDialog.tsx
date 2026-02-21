@@ -3,7 +3,7 @@ import FileUploader from "./FileUploader";
 import { useBalanceStore } from "~/stores/useBalanceStore";
 import type { FormValue, DialogProps } from "~/interfaces";
 import { categories } from "~/constants";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { useAuth } from "~/hooks/authContext";
 
 
@@ -22,7 +22,7 @@ const IncomeDialog = ({isOpen, setIsOpen}: DialogProps) => {
             await increase(values.amount, user!.uid);
             
             
-            await setDoc(doc(db, "transactions", user!.uid), {
+            await addDoc(collection(db, "transactions"), {
                 userID: user!.uid,
                 amount: values.amount,
                 category: values.category,
@@ -31,7 +31,6 @@ const IncomeDialog = ({isOpen, setIsOpen}: DialogProps) => {
                 file: values.file,
                 type:'income'
             })
-            
             setIsOpen(false)
         }catch(error:any){
             console.log(error)
@@ -42,10 +41,11 @@ const IncomeDialog = ({isOpen, setIsOpen}: DialogProps) => {
     const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        let d = new Date(String(formData.get('date')));
         const values:FormValue = {
             amount: Number(formData.get('amount')),
             category: formData.get('category') as string,
-            date: formData.get('date') as string,
+            date: String(d.getFullYear()) + '-' + String(d.getMonth() + 1) + '-' + String(d.getDate()),
             description: formData.get('description') as string,
             file: file,
         }
@@ -73,7 +73,7 @@ const IncomeDialog = ({isOpen, setIsOpen}: DialogProps) => {
                             <select defaultValue='' id="category" name="category" required className=' outline-zinc-400 rounded-md p-3 mr-4 border border-zinc-200 bg-bg-app'>
                                 <option value='' disabled>Select Category </option>
                                 {categories.map((option, i) => (
-                                    <option value={i+1}>{option}</option>
+                                    <option value={i} key={i}>{option}</option>
                                 ))}
                             </select>
                         </div>

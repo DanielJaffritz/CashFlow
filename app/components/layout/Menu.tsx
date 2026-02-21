@@ -9,7 +9,7 @@ const Menu = () => {
         </div>
         <div className="flex grow flex-col gap-5 mt-5">
           <Link to='/dashboard' className="flex flex-row items-center gap-1 hover:bg-amber-400 rounded-2xl p-1">
-            <img src="/assets/dashboard.svg" width={25}/>
+            <img src="/assets/dashboard.svg" width={30}/>
             <p>Dashboard</p>
           </Link>
           <Link to='/transactions' className="flex flex-row items-center gap-1 hover:bg-amber-400 rounded-2xl p-1">

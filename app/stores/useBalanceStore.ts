@@ -1,42 +1,64 @@
 import { create } from 'zustand';
 import { getFirestore, doc, updateDoc, increment } from 'firebase/firestore';
+import {persist, createJSONStorage} from "zustand/middleware";
 
 interface BalanceState {
   balance: number;
+  expense: number;
   increase: (by: number, userId: string) => Promise<void>;
   decrease: (by: number, userId: string) => Promise<void>;
   setBalance: (newBalance: number) => void; // para sincronizar desde Auth
 }
 
-export const useBalanceStore = create<BalanceState>((set, get) => ({
-  balance: 0,
-  increase: async (by, userId) => {
-    // Optimistic update: actualiza localmente primero
-    set((state) => ({ balance: state.balance + by }));
-    try {
-      const db = getFirestore();
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, {
-        balance: increment(by) // Usa increment para evitar race conditions
-      });
-    } catch (error) {
-      // Si falla, revertir el cambio local (o manejarlo según tu lógica)
-      set((state) => ({ balance: state.balance - by }));
-      console.error('Error actualizando balance en Firestore:', error);
+export const useBalanceStore = create<BalanceState>()(
+  persist(
+    (set) => ({
+      balance: 0,
+      expense: 0,
+      
+      increase: async (by, userId) => {
+        set((state) => ({balance: state.balance + by}));
+        try {
+          const db = getFirestore();
+          const userRef = doc(db, 'users', userId);
+          await updateDoc(userRef, {
+            balance: increment(by)
+          });
+        } catch(error) {
+          set((state) => ({balance: state.balance - by}));
+          console.error('Error updating balance in firestore', error);
+        }
+      },
+
+      decrease: async (by, userId) => {
+   
+        set((state) => ({ 
+          balance: state.balance - by,
+          expense: state.expense + by 
+        }));
+        
+      
+        try {
+          const db = getFirestore();
+          const userRef = doc(db, 'users', userId);
+          await updateDoc(userRef, {
+            balance: increment(-by)
+          });
+        } catch (error) {
+          set((state) => ({ 
+            balance: state.balance + by,
+            expense: state.expense - by 
+          }));
+        }
+      },
+
+      setBalance: (newBalance) => set({ balance: newBalance })
+    }),
+    {
+      name: 'balance-storage', 
+      storage: createJSONStorage(() => localStorage), 
+      // CLAVE: Aquí decides qué persistir
+      partialize: (state) => ({ expense: state.expense }), 
     }
-  },
-  decrease: async (by, userId) => {
-    set((state) => ({ balance: state.balance - by }));
-    try {
-      const db = getFirestore();
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, {
-        balance: increment(-by)
-      });
-    } catch (error) {
-      set((state) => ({ balance: state.balance + by }));
-      console.error('Error actualizando balance en Firestore:', error);
-    }
-  },
-  setBalance: (newBalance) => set({ balance: newBalance })
-}));
+  )
+);

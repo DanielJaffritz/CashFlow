@@ -3,13 +3,13 @@ import FileUploader from "./FileUploader";
 import { useBalanceStore } from "~/stores/useBalanceStore";
 import type { FormValue, DialogProps } from "~/interfaces";
 import { categories } from "~/constants";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { useAuth } from "~/hooks/authContext";
-
 
 const ExpenseDialog = ({isOpen, setIsOpen}: DialogProps) => {
     const [file, setFile ] = useState<File | null>(null);
     const decrease = useBalanceStore((state) => state.decrease);
+    const expense = useBalanceStore((state) => state.expense)
     const db = getFirestore();
     const {user} = useAuth();
 
@@ -20,9 +20,8 @@ const ExpenseDialog = ({isOpen, setIsOpen}: DialogProps) => {
     const handleSave = async (values: FormValue) => {
         try {
             await decrease(values.amount, user!.uid);
-            
-            
-            await setDoc(doc(db, "transactions", user!.uid), {
+
+            await addDoc(collection(db, "transactions"), {
                 userID: user!.uid,
                 amount: values.amount,
                 category: values.category,
@@ -42,14 +41,15 @@ const ExpenseDialog = ({isOpen, setIsOpen}: DialogProps) => {
     const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
+        let d = new Date(String(formData.get('date')));
         const values:FormValue = {
             amount: Number(formData.get('amount')),
             category: formData.get('category') as string,
-            date: formData.get('date') as string,
+            date: String(d.getFullYear()) + '-' + String(d.getMonth() + 1) + '-' + String(d.getDate()),
             description: formData.get('description') as string,
             file: file,
         }
-        handleSave(values);
+        handleSave(values)
     }
     if(!isOpen) return null;
     return (
@@ -57,7 +57,7 @@ const ExpenseDialog = ({isOpen, setIsOpen}: DialogProps) => {
             <div className="shadow flex flex-row justify-between rounded-t-2xl p-6">
                 <h1 className="text-2xl font-semibold">Add New Expense</h1>
                 <button onClick={() => setIsOpen(false)} className="cursor-pointer">
-                    <img src="assets/close.svg" width={25}/>
+                    <img src="./assets/close.svg" width={25}/>
                 </button>
             </div>
             <div className="flex flex-col items-center justify-center">
@@ -73,7 +73,7 @@ const ExpenseDialog = ({isOpen, setIsOpen}: DialogProps) => {
                             <select defaultValue='' id="category" name="category" required className=' outline-zinc-400 rounded-md p-3 mr-4 border border-zinc-200 bg-bg-app'>
                                 <option value='' disabled>Select Category </option>
                                 {categories.map((option, i) => (
-                                    <option value={i+1}>{option}</option>
+                                    <option value={i} key={i}>{option}</option>
                                 ))}
                             </select>
                         </div>
@@ -92,7 +92,7 @@ const ExpenseDialog = ({isOpen, setIsOpen}: DialogProps) => {
                     </div>
                     <div className="flex flex-row justify-between p-5">
                         <button className='outline outline-zinc-400 mr-5 rounded-md cursor-pointer' type="reset">Cancel</button>
-                        <button className="bg-amber-400 w-full py-3 rounded-md cursor-pointer" type="submit">Save Income</button>
+                        <button className="bg-amber-400 w-full py-3 rounded-md cursor-pointer" type="submit">Save expense</button>
                     </div>
                 </form>
             </div> 
