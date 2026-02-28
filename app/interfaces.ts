@@ -4,7 +4,9 @@ export interface UserData {
   uid: string;
   email: string | null;
   username: string;
-  balance:number;
+  balance: number;
+  /** total expenses stored in Firestore */
+  expense?: number;
   createdAt: Date;
   role: string;
 }
@@ -15,20 +17,26 @@ export interface AuthContextType {
   error: string | null;
 }
 export interface searchFilters {
-    search: string;
-    category: string;
-    range: string;
+  search: string;
+  category: string;
+  range: string;
 }
 
 export interface DialogProps {
-    isOpen: boolean;
-    setIsOpen: Dispatch<SetStateAction<boolean>>;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface FormValue {
-    amount:number;
-    category:string;
-    date: string;
-    description:string;
-    file: File | null;
+  amount: number;
+  category: string;
+  date: string;
+  description: string;
 }
+
+export interface BudgetFormValue {
+  amount: number;
+  category: string;
+  date: Date;
+}
+

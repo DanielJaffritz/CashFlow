@@ -20,6 +20,7 @@ const SignUp = () => {
                 email: user.email,
                 createdAt: new Date(),
                 balance: 0,
+                expense: 0,
                 role: "user"
             });
             setStatusText("Succesful Registration");

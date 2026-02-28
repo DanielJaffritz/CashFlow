@@ -8,7 +8,7 @@ import TotalBalance from '~/components/common/afterAuth/TotalBalance';
 import TransactionsList from '~/components/common/afterAuth/TransactionsList';
 
 const Transactions = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [openDialogIncome, setOpenDialogIncome] = useState(false);
   const [openDialogExpense, setOpenDialogExpense] = useState(false);
 
@@ -17,23 +17,23 @@ const Transactions = () => {
       <aside>
         <Menu />
       </aside>
-     
+
       <div className='flex-1 overflow-y-auto'>
         <div className='shadow p-7 w-full'>
           <div className=' flex flex-row items-center justify-between'>
             <div className=''>
-              <h1 className='text-7xl font-semibold'>Transactions</h1>
-              <p className='text-zinc-600'>Manage and track your financial activities</p>
+              <h1 className='text-5xl font-semibold'>Transactions</h1>
+              <p className='text-general-text'>Manage and track your financial activities</p>
             </div>
-            <div className='flex flex-row gap-5'>
+            <div className='flex flex-row gap-5 border-b border-zinc-200 pb-5'>
               <button onClick={() => setOpenDialogIncome(true)} className='border border-zinc-200 hover:bg-green-100 p-2 flex flex-row items-center rounded-md gap-x-2 cursor-pointer'>
-                <img src='/assets/add.svg' width={30} className=''/>
+                <img src='/assets/add.svg' width={30} className='' />
                 Add Income
               </button>
-              <button onClick={() => setOpenDialogExpense(true)} className='p-2 flex flex-row items-center rounded-md bg-amber-400 hover:bg-amber-500 gap-x-2 cursor-pointer'> 
-                <img src='/assets/minus.svg' width={30}/>
+              <button onClick={() => setOpenDialogExpense(true)} className='p-2 flex flex-row items-center rounded-md bg-amber-400 hover:bg-amber-500 gap-x-2 cursor-pointer'>
+                <img src='/assets/minus.svg' width={30} />
                 Add Expense
-              </button>          
+              </button>
             </div>
           </div>
           <div className='flex flex-row mt-2 w-full'>

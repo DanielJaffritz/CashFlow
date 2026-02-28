@@ -34,7 +34,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               createdAt: userData.createdAt?.toDate?.() || new Date(),
               role: userData.role,
             });
-            useBalanceStore.getState().setBalance(userData.balance || 0)
+            // sync zustand store with Firestore values (balance + expense)
+            useBalanceStore.getState().setBalance(userData.balance || 0);
+            // userData might not contain expense if document was created
+            if (typeof userData.expense === 'number') {
+              useBalanceStore.getState().setExpense(userData.expense);
+            }
           }
         } else {
           setUser(null);

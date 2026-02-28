@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { getFirestore, doc, updateDoc, increment } from 'firebase/firestore';
-import {persist, createJSONStorage} from "zustand/middleware";
 
 interface BalanceState {
   balance: number;
@@ -8,10 +7,10 @@ interface BalanceState {
   increase: (by: number, userId: string) => Promise<void>;
   decrease: (by: number, userId: string) => Promise<void>;
   setBalance: (newBalance: number) => void; // para sincronizar desde Auth
+  setExpense: (newExpense: number) => void; // para sincronizar desde Auth
 }
 
 export const useBalanceStore = create<BalanceState>()(
-  persist(
     (set) => ({
       balance: 0,
       expense: 0,
@@ -34,7 +33,7 @@ export const useBalanceStore = create<BalanceState>()(
    
         set((state) => ({ 
           balance: state.balance - by,
-          expense: state.expense + by 
+          expense: state.expense + by
         }));
         
       
@@ -42,7 +41,9 @@ export const useBalanceStore = create<BalanceState>()(
           const db = getFirestore();
           const userRef = doc(db, 'users', userId);
           await updateDoc(userRef, {
-            balance: increment(-by)
+            balance: increment(-by),
+            expense: increment(by)
+             
           });
         } catch (error) {
           set((state) => ({ 
@@ -52,13 +53,7 @@ export const useBalanceStore = create<BalanceState>()(
         }
       },
 
-      setBalance: (newBalance) => set({ balance: newBalance })
+      setBalance: (newBalance) => set({ balance: newBalance }),
+      setExpense: (newExpense) => set({ expense: newExpense }),
     }),
-    {
-      name: 'balance-storage', 
-      storage: createJSONStorage(() => localStorage), 
-      // CLAVE: Aquí decides qué persistir
-      partialize: (state) => ({ expense: state.expense }), 
-    }
-  )
-);
+  );
