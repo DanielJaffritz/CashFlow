@@ -22,7 +22,6 @@ const dashboard = () => {
             </div>
           </div>
           <LinealChart />
-          <h1>welcome {user?.username}</h1>
         </div>
       </section>
     </div>

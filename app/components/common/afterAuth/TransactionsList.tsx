@@ -2,17 +2,18 @@ import { collection, getDocs, getFirestore, query, where, orderBy, deleteDoc, do
 import { useEffect, useState } from 'react'
 import { categories } from '~/constants';
 import { useAuth } from '~/hooks/authContext';
+import { format } from 'date-fns'
 
 const TransactionsList = () => {
   const { user, loading: authloading } = useAuth();
   const db = getFirestore();
   const [search, setSearch] = useState('');
-  const [date, setDate] = useState('All dates');
+  const [date, setDate] = useState<string | Date>('All dates');
   const [category, setCategory] = useState(['']);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchData = async (isNextPage = false) => {
+  const fetchData = async () => {
     if (!user?.uid) return;
     setLoading(true);
 
@@ -72,20 +73,6 @@ const TransactionsList = () => {
     const value = event.target.value;
     setSearch(value);
   }
-  const getDate = (actDate: any, format = "yyyy-mm-dd") => {
-    const v = format.replace('mm', actDate.getMonth() + 1).replace('dd', actDate.getDate()).replace('yyyy', actDate.getFullYear());
-    setDate(v);
-  }
-  const getMonth = (actMonth: any, format = "yyyy-mm") => {
-    const v = format.replace('mm', actMonth.getMonth() + 1).replace('yyyy', actMonth.getFullYear());
-    setDate(v);
-  }
-  const getYear = (actWeek: any, format = 'yyyy') => {
-    const v = format.replace('yyyy', actWeek.getFullYear());
-    setDate(v);
-  }
-
-
   return (
     <div className='flex flex-col'>
       <div className='p-10 flex flex-row justify-between'>
@@ -94,12 +81,12 @@ const TransactionsList = () => {
         <div className='flex flex-row gap-5 p-1 rounded-md bg-[#f5efe6]'>
           <input type='radio' name='range' id='all' onChange={() => setDate('All dates')} defaultChecked />
           <label htmlFor='all' className='rounded-md'>All dates</label>
-          <input type='radio' name='range' id='today' onChange={() => getDate(new Date())} />
+          <input type='radio' name='range' id='today' onChange={() => setDate(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0))} />
           <label htmlFor='today' className='rounded-md' >Today</label>
-          <input type="radio" name="range" id="year" onChange={() => getYear(new Date())} />
-          <label htmlFor="year" className='rounded-md'>This year</label>
-          <input type="radio" name="range" id="month" onChange={() => getMonth(new Date())} />
+          <input type="radio" name="range" id="month" onChange={() => setDate(new Date(new Date().getFullYear(), new Date().getMonth(), 1))} />
           <label htmlFor="month" className='rounded-md'>This month</label>
+          <input type="radio" name="range" id="year" onChange={() => setDate(new Date(new Date().getFullYear(), 0, 1, 0, 0, 0))} />
+          <label htmlFor="year" className='rounded-md'>This year</label>
         </div>
         <div>
           <input type='text' onChange={handleSearch} placeholder='Search Transations...' className='bg-white p-3 rounded-md border border-[#f5efe6] outline-[#e8e1d5]'></input>
@@ -143,13 +130,13 @@ const TransactionsList = () => {
                 {transactions.map((transaction: any) => (
                   <tr className='bg-neutral-primary border-b border-default' key={transaction.id}>
                     <th scope='row' className='px-6 py-4 font-medium text-heading whitespace-nowrap'>
-                      {transaction.date}
+                      {format(transaction.date.toDate(), 'MMMM do, yyyy')}
                     </th>
                     <th className='px-6 py-4'>
                       {transaction.category}
                     </th>
-                    <th className='px-6 py-4 text-general-text'>
-                      {transaction.description}
+                    <th className='px-6 py-4'>
+                      <p className='text-general-text'>{transaction.description}</p>
                     </th>
                     <th className='px-6 py-4'>
                       {transaction.type === "expense" ?

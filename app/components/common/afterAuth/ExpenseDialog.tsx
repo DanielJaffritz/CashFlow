@@ -42,11 +42,10 @@ const ExpenseDialog = ({ isOpen, setIsOpen }: DialogProps) => {
   const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    let d = new Date(String(formData.get('date')));
     const values: FormValue = {
       amount: Number(formData.get('amount')),
       category: formData.get('category') as string,
-      date: String(d.getFullYear()) + '-' + String(d.getMonth() + 1) + '-' + String(d.getDate()),
+      date: new Date(String(formData.get('date'))),
       description: formData.get('description') as string,
     }
     handleSave(values)

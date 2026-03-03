@@ -30,7 +30,7 @@ export interface DialogProps {
 export interface FormValue {
   amount: number;
   category: string;
-  date: string;
+  date: Date;
   description: string;
 }
 
