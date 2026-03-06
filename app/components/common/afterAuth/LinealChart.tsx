@@ -3,6 +3,7 @@ import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, To
 import { collection, getAggregateFromServer, getDocs, getFirestore, orderBy, query, sum, where } from 'firebase/firestore'
 import { useAuth } from '~/hooks/authContext'
 import { useEffect, useState } from 'react'
+import { getIncomesAndExpenses } from '~/utils/getChats'
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 
@@ -11,24 +12,21 @@ const LinealChart = () => {
   const { user } = useAuth();
   const [data, setData] = useState<any[]>([]);
 
-  const fetchData = async () => {
+  const todo = async () => {
     if (!user?.uid) return;
+
     let q = query(
       collection(db, 'transactions'),
       orderBy('date', 'desc'),
-      where('userID', '==', user!.uid))
-    q = query(q, where('date', '>=', new Date(new Date().getFullYear(), new Date().getMonth(), 1, 0, 0, 0)))
-    const querySnapshot = await getAggregateFromServer(q, { totalIncomes: sum('amount') });
-    console.log(querySnapshot.data().totalIncomes)
-    setData(prev => [...prev, [new Date().getMonth(), querySnapshot.data().totalIncomes]])
+      where('userID', '==', user!.uid),
+      where('date', '>=', new Date(new Date().getFullYear(), new Date().getMonth(), 1)))
+    const queryS = await getDocs(q);
+    const dat = queryS.docs.map(doc => ({ date: doc.data().date, amount: doc.data().amount, type: doc.data().type }))
+    console.log(dat)
 
+    console.log(getIncomesAndExpenses(dat, new Date(2026, 2, 1, 0, 0, 0), new Date(2026, 2, 31, 23, 59, 59), 'daily'))
   }
-  useEffect(() => {
-    fetchData();
-  }, [user])
-  const labels = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august']
   const dataValues = {
-    labels,
     datasets: [
       {
         label: 'Dataset',
@@ -41,16 +39,8 @@ const LinealChart = () => {
   return (
     <section>
       <div>
-
-        {data.map((month) => (
-          <div>{month[0]}</div>
-        ))}
+        <button onClick={todo}> hola eb</button>
       </div>
-      <Line
-        data={dataValues}
-        redraw={true} />
-
-
     </section>
   )
 }
