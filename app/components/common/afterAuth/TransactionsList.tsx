@@ -106,9 +106,9 @@ const TransactionsList = () => {
       <div>
         {loading === true ? <h1>cargando</h1> :
           <div className="m-10 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default rounded-2xl">
-            <table className="w-full text-sm text-left rtl:text-right text-body bg-white">
+            <table className="w-full text-sm text-left rtl:text-right text-body bg-white from-amber-400">
               <thead className=" text-body bg-neutral-secondary-soft border-b rounded-base border-default bg-bg-app">
-                <tr>
+                <tr key={'list'}>
                   <th scope="col" className="text-general-text p-6 font-medium">
                     Date
                   </th>

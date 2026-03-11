@@ -36,7 +36,7 @@ const Transactions = () => {
               </button>
             </div>
           </div>
-          <div className='flex flex-row mt-2 w-full'>
+          <div className='flex flex-row mt-2 w-full gap-10'>
             <TotalBalance />
             <Expenses />
           </div>

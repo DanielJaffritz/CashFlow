@@ -3,28 +3,35 @@ import { Link } from 'react-router';
 import LinealChart from '~/components/common/afterAuth/LinealChart';
 import Menu from '~/components/layout/Menu';
 import TotalBalance from '~/components/common/afterAuth/TotalBalance';
+import PieChart from '~/components/common/afterAuth/PieChart';
+import DashboardList from '~/components/common/afterAuth/DashboardList';
 
 const dashboard = () => {
   const { user } = useAuth();
   return (
-    <div>
-      <section className='flex flex-row bg-bg-app'>
+    <section className='flex flex-col md:flex-row transition-all h-screen overflow-hidden bg-bg-app w-full'>
+      <aside className='align-bottom'>
         <Menu />
-        <div className='flex flex-col w-full'>
-          <div className='flex flex-row'>
-            <TotalBalance />
-            <div className=' bg-white shadow p-5 m-5 rounded-2xl w-full'>
-              <div className="flex flex-row items-center">
-                <p className="text-zinc-600">Expenses limit</p>
-                <img src="/assets/budget.svg" width={30} />
-              </div>
-              <progress className='w-full mt-5 bg-gray-50 rounded-full h-5 [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:bg-amber-400' value={75} max={100}>75% </progress>
-            </div>
-          </div>
-          <LinealChart />
+      </aside>
+
+      <div className='flex-1 overflow-y-auto md:w-full'>
+        <div className='flex flex-col shadow p-5'>
+          <h1 className='text-5xl font-semibold'>Dashboard</h1>
+          <p className='text-general-text'>view all your financial activities in one place</p>
         </div>
-      </section>
-    </div>
+        <div className='m-5 flex flex-row justify-between items-ceenter'>
+          <TotalBalance />
+          <div>
+            this is for forex
+          </div>
+        </div>
+        <LinealChart />
+        <div className='flex flex-row w-full justify-between'>
+          <DashboardList />
+          <PieChart />
+        </div>
+      </div>
+    </section>
   )
 }
 

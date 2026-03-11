@@ -54,7 +54,7 @@ const Budgeting = () => {
         <div className="flex shadow p-7 w-full flex-row items-center justify-between bg-bg-app">
           <div>
             <h1 className="text-5xl font-semibold">Monthly Budget Overview</h1>
-            <p className="text-general-text">To add logic</p>
+            <p className="text-general-text">Control all your financial activites</p>
           </div>
           <div>
             <button onClick={() => setOpenDialogBudget(true)} className="flex flex-row items-center bg-amber-400 hover:bg-amber-500 rounded-md p-3 cursor-pointer">
@@ -68,10 +68,10 @@ const Budgeting = () => {
           <button onClick={() => setOpenDialogBudget(true)} className="bg-amber-400 hover:bg-amber-500 rounded-md p-2 cursor-pointer">Create Budget</button>
         </div> :
           <div className="flex flex-row">
-            <div className="grid grid-cols-2 p-10 w-3/5 gap-10">
+            <div className="grid grid-cols-2 p-10 w-4/5 gap-10">
               {budgets.map((element: any) => (
                 <div className={clsx('flex flex-col bg-white rounded-2xl p-4', getStatus(element.actual, element.objective)
-                  ? 'border-2 border-red-300' : '')}>
+                  ? 'border-2 border-red-300' : 'border border-general-text')}>
 
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-row items-center">

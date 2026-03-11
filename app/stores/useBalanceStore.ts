@@ -11,49 +11,49 @@ interface BalanceState {
 }
 
 export const useBalanceStore = create<BalanceState>()(
-    (set) => ({
-      balance: 0,
-      expense: 0,
-      
-      increase: async (by, userId) => {
-        set((state) => ({balance: state.balance + by}));
-        try {
-          const db = getFirestore();
-          const userRef = doc(db, 'users', userId);
-          await updateDoc(userRef, {
-            balance: increment(by)
-          });
-        } catch(error) {
-          set((state) => ({balance: state.balance - by}));
-          console.error('Error updating balance in firestore', error);
-        }
-      },
+  (set) => ({
+    balance: 0,
+    expense: 0,
 
-      decrease: async (by, userId) => {
-   
-        set((state) => ({ 
-          balance: state.balance - by,
-          expense: state.expense + by
+    increase: async (by, userId) => {
+      set((state) => ({ balance: state.balance + by }));
+      try {
+        const db = getFirestore();
+        const userRef = doc(db, 'users', userId);
+        await updateDoc(userRef, {
+          balance: increment(by)
+        });
+      } catch (error) {
+        set((state) => ({ balance: state.balance - by }));
+        console.error('Error updating balance in firestore', error);
+      }
+    },
+
+    decrease: async (by, userId) => {
+
+      set((state) => ({
+        balance: state.balance - by,
+        expense: state.expense + by
+      }));
+
+
+      try {
+        const db = getFirestore();
+        const userRef = doc(db, 'users', userId);
+        await updateDoc(userRef, {
+          balance: increment(-by),
+          expense: increment(by)
+
+        });
+      } catch (error) {
+        set((state) => ({
+          balance: state.balance + by,
+          expense: state.expense - by
         }));
-        
-      
-        try {
-          const db = getFirestore();
-          const userRef = doc(db, 'users', userId);
-          await updateDoc(userRef, {
-            balance: increment(-by),
-            expense: increment(by)
-             
-          });
-        } catch (error) {
-          set((state) => ({ 
-            balance: state.balance + by,
-            expense: state.expense - by 
-          }));
-        }
-      },
+      }
+    },
 
-      setBalance: (newBalance) => set({ balance: newBalance }),
-      setExpense: (newExpense) => set({ expense: newExpense }),
-    }),
-  );
+    setBalance: (newBalance) => set({ balance: newBalance }),
+    setExpense: (newExpense) => set({ expense: newExpense }),
+  }),
+);
