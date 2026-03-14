@@ -1,8 +1,22 @@
+import { useEffect } from "react";
+import { useAuth } from "~/hooks/authContext";
 import { useBalanceStore } from "~/stores/useBalanceStore"
 
 
 const Expenses = () => {
   const expense = useBalanceStore((state) => state.expense);
+  const decrease = useBalanceStore((state) => state.decrease);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const lastCleanup = localStorage.getItem('lastMonthlyCleanup');
+    const thisMonth = new Date().getMonth().toString();
+    if (lastCleanup !== thisMonth) {
+      decrease(expense, user!.uid)
+    }
+    localStorage.setItem('lastMonthlyCleanup', thisMonth);
+
+  }, [user])
   return (
     <div className="flex flex-col bg-white shadow p-5 rounded-2xl border border-general-text">
       <div className="flex flex-row items-center">

@@ -6,7 +6,6 @@ import { addDoc, collection, doc, getFirestore, getDoc, increment, updateDoc } f
 import { useAuth } from "~/hooks/authContext";
 
 const ExpenseDialog = ({ isOpen, setIsOpen }: DialogProps) => {
-  const [file, setFile] = useState<File | null>(null);
   const decrease = useBalanceStore((state) => state.decrease);
   const db = getFirestore();
   const { user } = useAuth();
@@ -24,14 +23,12 @@ const ExpenseDialog = ({ isOpen, setIsOpen }: DialogProps) => {
         type: 'expense'
       })
       const budgetRef = doc(db, 'budgets', user!.uid + values.category);
-      // check if a budget document actually exists before updating
       const budgetSnap = await getDoc(budgetRef);
       if (budgetSnap.exists()) {
         await updateDoc(budgetRef, {
           actual: increment(values.amount)
         });
       }
-      // close dialog in any case after the save logic completes
       setIsOpen(false);
     } catch (error: any) {
       console.log(error)
