@@ -44,7 +44,7 @@ const Budgeting = () => {
 
 
   return (
-    <section className="flex flex-row h-screen overflow-hidden w-full">
+    <section className="flex flex-col md:flex-row h-screen overflow-hidden w-full">
       <aside className="bg-white border-e border-zinc-100">
         <Menu />
       </aside>
@@ -53,11 +53,11 @@ const Budgeting = () => {
       <div className="flex-1 overflow-y-auto w-full bg-bg-app">
         <div className="flex shadow p-7 w-full flex-row items-center justify-between bg-bg-app">
           <div>
-            <h1 className="text-5xl font-semibold">Monthly Budget Overview</h1>
+            <h1 className="text-3xl md:text-5xl font-semibold">Monthly Budget Overview</h1>
             <p className="text-general-text">Control all your financial activites</p>
           </div>
           <div>
-            <button onClick={() => setOpenDialogBudget(true)} className="flex flex-row items-center bg-amber-400 hover:bg-amber-500 rounded-md p-3 cursor-pointer">
+            <button onClick={() => setOpenDialogBudget(true)} className="flex flex-row items-center bg-amber-400 hover:bg-amber-500 rounded-md p-1 md:p-3 cursor-pointer">
               <img src="assets/plus.svg" width={30} />
               Create New Budget
             </button>
@@ -68,18 +68,18 @@ const Budgeting = () => {
           <button onClick={() => setOpenDialogBudget(true)} className="bg-amber-400 hover:bg-amber-500 rounded-md p-2 cursor-pointer">Create Budget</button>
         </div> :
           <div className="flex flex-row">
-            <div className="grid grid-cols-2 p-10 w-4/5 gap-10">
+            <div className="grid grid-cols-2 p-5 md:p-10 w-full md:w-4/5 gap-5">
               {budgets.map((element: any) => (
-                <div className={clsx('flex flex-col bg-white rounded-2xl p-4', getStatus(element.actual, element.objective)
+                <div className={clsx('flex flex-col bg-white rounded-2xl p-2 md:p-4', getStatus(element.actual, element.objective)
                   ? 'border-2 border-red-300' : 'border border-general-text')}>
 
                   <div className="flex flex-row justify-between">
                     <div className="flex flex-row items-center">
-                      <img src={categories.get(element.category)} width={50} className={clsx('rounded-2xl p-1', getStatus(element.actual, element.objective)
+                      <img src={categories.get(element.category)} width={40} className={clsx('rounded-2xl p-1', getStatus(element.actual, element.objective)
                         ? 'bg-red-50' : 'bg-zinc-200')} />
-                      <h2 className="text-2xl font-semibold">{element.category}</h2>
+                      <h2 className="text-2xs md:text-2xl font-semibold">{element.category}</h2>
                     </div>
-                    <p className={clsx('rounded-3xl p-2', getStatus(element.actual, element.objective)
+                    <p className={clsx('rounded-3xl p-1 md:p-2', getStatus(element.actual, element.objective)
                       ? 'bg-red-50 text-red-400' : 'bg-zinc-200')}>{Math.round(element.actual / element.objective * 100)} %</p>
                   </div>
                   <div className="mt-3">
@@ -87,10 +87,10 @@ const Budgeting = () => {
                       <p className="text-general-text">${element.actual} spent</p>
                       {getStatus(element.actual, element.objective) ? <p className='text-red-400'>OVER BUDGET</p> : <p>{element.objective}</p>}
                     </div>
-                    <progress value={element.actual / element.objective * 100} max='100' className={clsx("rounded-md mt-10 border w-full bg-gray-50 [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:bg-amber-400 border-gray-200",
+                    <progress value={element.actual / element.objective * 100} max='100' className={clsx("rounded-md mt-5 md:mt-10 border w-full bg-gray-50 [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-value]:bg-amber-400 border-gray-200",
                       getStatus(element.actual, element.objective) ? '[&::-webkit-progress-value]:bg-red-400' : '[&::-webkit-progress-value]:bg-amber-400 ')}></progress>
                   </div>
-                  <div className="flex flex-row justify-between mt-10">
+                  <div className="flex flex-row justify-between mt-5 md:mt-10">
                     {new Date() === element.finishAt ? <p>completed</p> :
                       <p>{differenceInDays(
                         element.finishAt?.toDate ? element.finishAt.toDate() : new Date(element.finishAt),

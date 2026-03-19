@@ -26,6 +26,11 @@ export interface DialogProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
+export interface transactionsProps {
+  transactions: any[];
+  setTransactions: Dispatch<SetStateAction<any[]>>;
+  delete: (transactionID: string) => Promise<void>;
+}
 
 export interface FormValue {
   amount: number;

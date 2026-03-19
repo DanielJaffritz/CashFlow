@@ -1,8 +1,10 @@
 import { collection, getDocs, getFirestore, query, where, orderBy, deleteDoc, doc } from 'firebase/firestore';
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive';
 import { categories } from '~/constants';
 import { useAuth } from '~/hooks/authContext';
-import { format } from 'date-fns'
+import DesktopTransactionList from './DesktopTransactionList';
+import MobileTransactionList from './MobileTransactionList';
 
 const TransactionsList = () => {
   const { user, loading: authloading } = useAuth();
@@ -12,6 +14,7 @@ const TransactionsList = () => {
   const [category, setCategory] = useState(['']);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
   const fetchData = async () => {
     if (!user?.uid) return;
@@ -75,10 +78,10 @@ const TransactionsList = () => {
   }
   return (
     <div className='flex flex-col'>
-      <div className='p-10 flex flex-row justify-between'>
+      <div className='p-5 md:p-10 flex flex-col md:flex-row justify-between gap-2'>
 
 
-        <div className='flex flex-row gap-5 p-1 rounded-md bg-[#f5efe6]'>
+        <div className='flex flex-row gap-3 md:gap-5 p-1 rounded-md bg-[#f5efe6]'>
           <input type='radio' name='range' id='all' onChange={() => setDate('All dates')} defaultChecked />
           <label htmlFor='all' className='rounded-md'>All dates</label>
           <input type='radio' name='range' id='today' onChange={() => setDate(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0))} />
@@ -89,69 +92,23 @@ const TransactionsList = () => {
           <label htmlFor="year" className='rounded-md'>This year</label>
         </div>
         <div>
-          <input type='text' onChange={handleSearch} placeholder='Search Transations...' className='bg-white p-3 rounded-md border border-[#f5efe6] outline-[#e8e1d5]'></input>
+          <input type='text' onChange={handleSearch} placeholder='Search Transations...' className='bg-white p-2  md:p-3 rounded-md border border-[#f5efe6] outline-[#e8e1d5]'></input>
         </div>
       </div>
 
-      <div>
+      <div className='grid grid-cols-2 md:flex flex-row m-5'>
         {Array.from(categories.keys()).map((category) => (
           <>
             <input type='checkbox' name='category' id={category} onChange={() => handleCheck(category, event)} />
-            <label htmlFor={category} className='rounded-3xl border border-[#f5efe6] m-5'>{category}</label>
+            <label htmlFor={category} className='rounded-3xl border border-[#f5efe6] m-1'>{category}</label>
           </>
         ))}
       </div>
       <div>
       </div>
       <div>
-        {loading === true ? <h1>cargando</h1> :
-          <div className="m-10 relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default rounded-2xl">
-            <table className="w-full text-sm text-left rtl:text-right text-body bg-white from-amber-400">
-              <thead className=" text-body bg-neutral-secondary-soft border-b rounded-base border-default bg-bg-app">
-                <tr key={'list'}>
-                  <th scope="col" className="text-general-text p-6 font-medium">
-                    Date
-                  </th>
-                  <th scope="col" className="text-general-text font-medium">
-                    Category
-                  </th>
-                  <th scope="col" className="text-general-text font-medium">
-                    Description
-                  </th>
-                  <th scope="col" className="text-general-text font-medium">
-                    Amount
-                  </th>
-                  <th scope="col" className="text-general-text font-medium">
-                    Delete
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {transactions.map((transaction: any) => (
-                  <tr className='bg-neutral-primary border-b border-default' key={transaction.id}>
-                    <th scope='row' className='px-6 py-4 font-medium text-heading whitespace-nowrap'>
-                      {format(transaction.date.toDate(), 'MMMM do, yyyy')}
-                    </th>
-                    <th className='px-6 py-4'>
-                      {transaction.category}
-                    </th>
-                    <th className='px-6 py-4'>
-                      <p className='text-general-text'>{transaction.description}</p>
-                    </th>
-                    <th className='px-6 py-4'>
-                      {transaction.type === "expense" ?
-                        <p className='text-red-500'>-${transaction.amount}</p> :
-                        <p className='text-green-400'>+${transaction.amount}</p>}
-                    </th>
-                    <th className='px-6 py-4'>
-                      <button className='cursor-pointer hover:bg-red-100 rounded-md'><img src='assets/delete.svg' width={30} onClick={() => deleteTransaction(transaction.id)} /></button>
-                    </th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-          </div>}
+        {isMobile ? <MobileTransactionList transactions={transactions} setTransactions={setTransactions} delete={deleteTransaction} /> :
+          <DesktopTransactionList transactions={transactions} setTransactions={setTransactions} delete={deleteTransaction} />}
       </div>
     </div>
   )

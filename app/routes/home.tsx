@@ -3,7 +3,7 @@ import type { Route } from "./+types/home";
 import Hero from "~/components/common/beforeAuth/Hero";
 import Foot from "~/components/common/beforeAuth/Foot";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "CashFlow" },
     { name: "description", content: "Welcome to CashFlow" },
@@ -12,10 +12,10 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <>
+    <section className="w-full">
       <HomePageNav />
       <Hero />
       <Foot />
-    </>
+    </section>
   )
 }

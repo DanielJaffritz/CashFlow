@@ -81,7 +81,7 @@ const LinealChart = () => {
           <h1 className='text-2xl font-semibold'>Cash Flow: Income vs Expense</h1>
           <p className='text-general-text'>comparison of your inflows and outflows</p>
         </div>
-        <div className='flex flex-row gap-5 p-1 rounded-md bg-[#f5efe6]'>
+        <div className='flex flex-col md:flex-row gap-2 p-1 rounded-md bg-[#f5efe6]'>
           <input type='radio' name='range' id='daily' defaultChecked onChange={() => queryResult(startOfMonth(subMonths(new Date(), 1)), startOfMonth(new Date()), endOfMonth(new Date()), 'daily')} />
           <label htmlFor='daily'>Daily</label>
           <input type='radio' name='range' id='monthly' onChange={() => queryResult(startOfYear(subYears(new Date, 1)), startOfYear(new Date()), endOfYear(new Date()), 'monthly')} />
@@ -89,7 +89,7 @@ const LinealChart = () => {
         </div>
       </div>
       <div>
-        <p className='text-general-text mt-5'>NET GROWTH</p>
+        <p className='text-general-text mt-2 md:mt-5'>NET GROWTH</p>
         <h1 className='text-3xl font-semibold'>{netGrowth.toFixed(2)}$</h1>
         <Line options={options} data={dataValues}>
         </Line>

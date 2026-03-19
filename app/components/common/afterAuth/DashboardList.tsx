@@ -24,8 +24,8 @@ const DashboardList = () => {
 
   useMemo(() => fetchData(), [user])
   return (
-    <div className="bg-white rounded-2xl w-full p-5 m-5  border border-general-text">
-      <div className="border-b p-5 flex flex-row items-center justify-between">
+    <div className="bg-white rounded-2xl md:w-full p-3 md:p-5 m-5 border border-general-text">
+      <div className="border-b p-3 md:p-5 flex flex-row items-center justify-between">
         <h1 className="font-semibold text-2xl">Recent Transactions</h1>
         <Link to='/transactions' className="text-amber-400 hover:text-amber-600 font-semibold">
           View All
