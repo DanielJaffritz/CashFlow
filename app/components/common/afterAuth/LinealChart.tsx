@@ -91,7 +91,8 @@ const LinealChart = () => {
       </div>
       <div>
         <p className='text-general-text mt-2 md:mt-5 dark:text-zinc-500'>NET GROWTH</p>
-        <h1 className='text-3xl font-semibold dark:text-white'>{netGrowth.toFixed(2)}$</h1>
+        <h1 className='text-3xl font-semibold dark:text-white'>{netGrowth.toFixed(2) === "NaN" ? <p>0$</p>
+          : <p>{netGrowth.toFixed(2)}$</p>}</h1>
         <Line options={options} data={dataValues}>
         </Line>
       </div>

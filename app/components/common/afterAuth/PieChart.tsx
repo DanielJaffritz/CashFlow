@@ -17,6 +17,7 @@ const PieChart = () => {
     let q = query(
       collection(db, 'transactions'),
       orderBy('date', 'desc'),
+      where("userID", "==", user.uid),
       where('date', '>=', startOfMonth(new Date())),
       where('date', '<=', endOfMonth(new Date())),
       where('type', '==', 'expense'))
