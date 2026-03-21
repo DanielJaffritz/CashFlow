@@ -11,7 +11,7 @@ const Transactions = () => {
   const [openDialogExpense, setOpenDialogExpense] = useState(false);
 
   return (
-    <section className='flex flex-col md:flex-row h-screen overflow-hidden bg-bg-app w-full'>
+    <section className='flex flex-col md:flex-row h-screen overflow-hidden bg-bg-app dark:bg-zinc-900 w-full'>
       <aside>
         <Menu />
       </aside>
@@ -20,11 +20,11 @@ const Transactions = () => {
         <div className='shadow p-4 md:p-7 w-full'>
           <div className=' flex flex-row items-center justify-between'>
             <div>
-              <h1 className='text-3xl md:text-5xl font-semibold'>Transactions</h1>
-              <p className='text-general-text'>Manage and track your financial activities</p>
+              <h1 className='text-3xl md:text-5xl font-semibold dark:text-white'>Transactions</h1>
+              <p className='text-general-text dark:text-zinc-500'>Manage and track your financial activities</p>
             </div>
-            <div className='flex flex-row gap-3 border-b border-zinc-200 pb-5'>
-              <button onClick={() => setOpenDialogIncome(true)} className='border border-zinc-200 hover:bg-green-100 p-2 flex flex-col md:flex-row items-center rounded-md gap-x-2 cursor-pointer'>
+            <div className='flex flex-row gap-3 pb-5'>
+              <button onClick={() => setOpenDialogIncome(true)} className='border border-zinc-200 dark:border-green-300 hover:bg-green-300 dark:text-white p-2 flex flex-col md:flex-row items-center rounded-md gap-x-2 cursor-pointer'>
                 <img src='/assets/add.svg' width={30} className='' />
                 Add Income
               </button>

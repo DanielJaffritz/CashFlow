@@ -12,7 +12,7 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <section className="w-full">
+    <section className="w-full dark:bg-zinc-900">
       <HomePageNav />
       <Hero />
       <Foot />

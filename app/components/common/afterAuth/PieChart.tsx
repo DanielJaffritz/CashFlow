@@ -43,8 +43,8 @@ const PieChart = () => {
   }
   useMemo(() => queryData(), [user])
   return (
-    <div className="bg-white rounded-2xl p-5 m-5 md:w-1/2 border border-general-text">
-      <h1 className="font-semibold text-2xl">Expenses Breakdown</h1>
+    <div className="bg-white rounded-2xl p-5 m-5 md:w-1/2 border border-general-text dark:bg-zinc-800 dark:border-transparent">
+      <h1 className="font-semibold text-2xl dark:text-white">Expenses Breakdown</h1>
       <Doughnut data={dataValues} />
     </div>
   )

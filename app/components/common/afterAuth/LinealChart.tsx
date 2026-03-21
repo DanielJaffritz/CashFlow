@@ -51,7 +51,8 @@ const LinealChart = () => {
       {
         label: 'Expenses',
         data: data.expense,
-        backgroundColor: 'rgb(53,162, 235)',
+        backgroundColor: 'rgb(146,45, 20)',
+        borderColor: 'rgb(146, 45, 20)',
         fill: false,
         borderDash: [5, 5]
       },
@@ -75,22 +76,22 @@ const LinealChart = () => {
 
 
   return (
-    <div className='bg-white rounded-2xl m-5 p-5 border border-general-text'>
+    <div className='bg-white rounded-2xl m-5 p-5 border border-general-text dark:bg-zinc-800 dark:border-transparent'>
       <div className='flex flex-row justify-between'>
         <div>
-          <h1 className='text-2xl font-semibold'>Cash Flow: Income vs Expense</h1>
-          <p className='text-general-text'>comparison of your inflows and outflows</p>
+          <h1 className='text-2xl font-semibold dark:text-white'>Cash Flow: Income vs Expense</h1>
+          <p className='text-general-text dark:text-zinc-500'>comparison of your inflows and outflows</p>
         </div>
-        <div className='flex flex-col md:flex-row gap-2 p-1 rounded-md bg-[#f5efe6]'>
+        <div className='flex flex-col md:flex-row gap-2 p-1 rounded-md bg-[#f5efe6] dark:bg-zinc-900'>
           <input type='radio' name='range' id='daily' defaultChecked onChange={() => queryResult(startOfMonth(subMonths(new Date(), 1)), startOfMonth(new Date()), endOfMonth(new Date()), 'daily')} />
-          <label htmlFor='daily'>Daily</label>
+          <label htmlFor='daily' >Daily</label>
           <input type='radio' name='range' id='monthly' onChange={() => queryResult(startOfYear(subYears(new Date, 1)), startOfYear(new Date()), endOfYear(new Date()), 'monthly')} />
-          <label htmlFor='monthly'>Monthly</label>
+          <label htmlFor='monthly' >Monthly</label>
         </div>
       </div>
       <div>
-        <p className='text-general-text mt-2 md:mt-5'>NET GROWTH</p>
-        <h1 className='text-3xl font-semibold'>{netGrowth.toFixed(2)}$</h1>
+        <p className='text-general-text mt-2 md:mt-5 dark:text-zinc-500'>NET GROWTH</p>
+        <h1 className='text-3xl font-semibold dark:text-white'>{netGrowth.toFixed(2)}$</h1>
         <Line options={options} data={dataValues}>
         </Line>
       </div>

@@ -81,7 +81,7 @@ const TransactionsList = () => {
       <div className='p-5 md:p-10 flex flex-col md:flex-row justify-between gap-2'>
 
 
-        <div className='flex flex-row gap-3 md:gap-5 p-1 rounded-md bg-[#f5efe6]'>
+        <div className='flex flex-row gap-3 md:gap-5 p-1 rounded-md bg-[#f5efe6] dark:bg-zinc-800'>
           <input type='radio' name='range' id='all' onChange={() => setDate('All dates')} defaultChecked />
           <label htmlFor='all' className='rounded-md'>All dates</label>
           <input type='radio' name='range' id='today' onChange={() => setDate(new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 0, 0, 0))} />
@@ -92,7 +92,7 @@ const TransactionsList = () => {
           <label htmlFor="year" className='rounded-md'>This year</label>
         </div>
         <div>
-          <input type='text' onChange={handleSearch} placeholder='Search Transations...' className='bg-white p-2  md:p-3 rounded-md border border-[#f5efe6] outline-[#e8e1d5]'></input>
+          <input type='text' onChange={handleSearch} placeholder='Search Transations...' className='bg-white dark:bg-zinc-800 p-2  md:p-3 rounded-md border border-[#f5efe6] dark:border-transparent outline-[#e8e1d5] dark:outline-zinc-700 dark:text-white'></input>
         </div>
       </div>
 
@@ -100,7 +100,7 @@ const TransactionsList = () => {
         {Array.from(categories.keys()).map((category) => (
           <>
             <input type='checkbox' name='category' id={category} onChange={() => handleCheck(category, event)} />
-            <label htmlFor={category} className='rounded-3xl border border-[#f5efe6] m-1'>{category}</label>
+            <label htmlFor={category} className='rounded-3xl border border-[#f5efe6] dark:border-transparent m-1'>{category}</label>
           </>
         ))}
       </div>

@@ -17,30 +17,30 @@ const forex = () => {
     fetchData()
   }, [])
   return (
-    <section className='flex flex-col md:flex-row transition-all h-screen overflow-hidden bg-bg-app w-full'>
+    <section className='flex flex-col md:flex-row transition-all h-screen overflow-hidden bg-bg-app w-full dark:bg-zinc-900'>
       <aside className="align-bottom">
         <Menu />
       </aside>
       <div className='flex-1 overflow-y-auto w-full' >
         <div className='flex flex-col shadow p-5'>
-          <h1 className="font-semibold text-5xl">Forex Overview</h1>
-          <p className="text-general-text">Stay informed about markets</p>
+          <h1 className="font-semibold text-5xl dark:text-white">Forex Overview</h1>
+          <p className="text-general-text dark:text-zinc-500">Stay informed about markets</p>
         </div >
         <div className="flex flex-row m-5 gap-10">
           {Object.entries(principal).map(([key, value]: [string, any], i) => (
-            <div key={i} className="bg-white rounded-2xl p-3 border border-general-text">
-              <p className="text-general-text">{key}</p>
-              <h2 className="text-3xl font-semibold">{value}</h2>
+            <div key={i} className="bg-white dark:bg-zinc-800 rounded-2xl p-3 border border-general-text dark:border-transparent">
+              <p className="text-general-text dark:text-zinc-400">{key}</p>
+              <h2 className="text-3xl font-semibold dark:text-white">{value}</h2>
             </div>
 
           ))}
         </div>
-        <div className=" flex flex-col m-5 rounded-2xl bg-white border border-general-text p-10">
-          <h1>All Markets</h1>
+        <div className=" flex flex-col m-5 rounded-2xl bg-white border border-general-text p-10 dark:bg-zinc-800 dark:border-transparent">
+          <h1 className="dark:text-white">All Markets</h1>
           <ul className="w-full mt-5 flex flex-col items-center">
             {Object.entries(data).map(([key, value]: [string, any], i) => (
               <li key={i} className="flex flex-row font-semibold mb-10 w-full justify-between border-b border-general-text">
-                <p>USD/{key}</p>
+                <p className="dark:text-zinc-400">USD/{key}</p>
                 <p className="text-amber-400">{value}</p>
               </li>
             ))}
