@@ -45,7 +45,7 @@ const BudgetDialog = ({ isOpen, setIsOpen }: DialogProps) => {
 
   if (!isOpen) return null;
   return (
-    <dialog open closedby="any" onClose={() => setIsOpen(false)} className='transition-all flex flex-col w-3/4 md:w-1/2 h-2/3 md:h-5/6 rounded-2xl fixed top-[50%] left-[50%] right-[50%] translate-x-[-50%] translate-y-[-50%] dark:bg-zinc-800'>
+    <dialog open closedby="any" onClose={() => setIsOpen(false)} className='transition-all flex flex-col w-full md:w-1/2 md:h-5/6 rounded-2xl fixed top-[50%] left-[50%] right-[50%] translate-x-[-50%] translate-y-[-50%] dark:bg-zinc-800'>
       <div className="shadow flex flex-row justify-between rounded-t-2xl p-6">
         <h1 className="text-2xl font-semibold dark:text-white">Create a new budget</h1>
         <button onClick={() => setIsOpen(false)} className="cursor-pointer">
