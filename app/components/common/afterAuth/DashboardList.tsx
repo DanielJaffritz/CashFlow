@@ -5,11 +5,13 @@ import { Link } from "react-router"
 import { categories } from "~/constants";
 import { useAuth } from "~/hooks/authContext";
 
+//transactions list adapted to be in the dashboard
 const DashboardList = () => {
-  const { user } = useAuth();
-  const db = getFirestore();
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const { user } = useAuth(); //get user's data
+  const db = getFirestore(); //get database
+  const [transactions, setTransactions] = useState<any[]>([]); //stores transactions
 
+  //function to query user's transactions
   const fetchData = async () => {
     if (!user?.uid) return;
     let q = query(

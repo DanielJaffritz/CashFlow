@@ -1,15 +1,17 @@
-import { useState, type FormEvent } from "react";
+import { type FormEvent } from "react";
 import { useBalanceStore } from "~/stores/useBalanceStore";
 import type { FormValue, DialogProps } from "~/interfaces";
 import { categories } from "~/constants";
 import { addDoc, collection, doc, getFirestore, getDoc, increment, updateDoc } from "firebase/firestore";
 import { useAuth } from "~/hooks/authContext";
 
+//transactions modal to create a new expense
 const ExpenseDialog = ({ isOpen, setIsOpen }: DialogProps) => {
-  const decrease = useBalanceStore((state) => state.decrease);
-  const db = getFirestore();
-  const { user } = useAuth();
+  const decrease = useBalanceStore((state) => state.decrease); //get function to decrease user's total balance
+  const db = getFirestore(); //get database
+  const { user } = useAuth(); //get user's data
 
+  //function to save transction in database
   const handleSave = async (values: FormValue) => {
     try {
       await decrease(values.amount, user!.uid);
@@ -35,7 +37,7 @@ const ExpenseDialog = ({ isOpen, setIsOpen }: DialogProps) => {
     }
 
   }
-
+  //prepares info before saving it into database
   const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

@@ -6,16 +6,18 @@ import { useAuth } from '~/hooks/authContext';
 import DesktopTransactionList from './DesktopTransactionList';
 import MobileTransactionList from './MobileTransactionList';
 
+//transactions list to be rendered in transactions route
 const TransactionsList = () => {
-  const { user, loading: authloading } = useAuth();
-  const db = getFirestore();
-  const [search, setSearch] = useState('');
-  const [date, setDate] = useState<string | Date>('All dates');
-  const [category, setCategory] = useState(['']);
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const { user, loading: authloading } = useAuth(); //gets user's data and state
+  const db = getFirestore(); //gets database
+  const [search, setSearch] = useState(''); //store user's text search
+  const [date, setDate] = useState<string | Date>('All dates'); //stores user's data search
+  const [category, setCategory] = useState(['']); //stores user's category search
+  const [transactions, setTransactions] = useState<any[]>([]); //stores transactions
   const [loading, setLoading] = useState(false);
   const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
+  //query data from database
   const fetchData = async () => {
     if (!user?.uid) return;
     setLoading(true);
@@ -49,12 +51,14 @@ const TransactionsList = () => {
       setLoading(false);
     }
   };
+  //delete transactions from database
   const deleteTransaction = async (transactionID: string) => {
     console.log(transactionID)
     await deleteDoc(doc(db, 'transactions', transactionID))
 
   }
 
+  //listens user's changes
   useEffect(() => {
     if (!authloading && user) {
       const handler = setTimeout(() => {
@@ -65,6 +69,7 @@ const TransactionsList = () => {
   }, [category, search, date, user])
 
 
+  //sets categories
   const handleCheck = (NewCategory: string, event: any) => {
     if (event.target.checked) {
       setCategory([...category, NewCategory]);
@@ -72,6 +77,7 @@ const TransactionsList = () => {
       setCategory(category.filter(item => item != NewCategory));
     }
   }
+  //sets user's search
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearch(value);

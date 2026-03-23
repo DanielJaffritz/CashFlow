@@ -1,22 +1,25 @@
-# Welcome to React Router!
+# Welcome to Cash Flow
 
-A modern, production-ready template for building full-stack React applications using React Router.
+A modern tool to keep track of finances and not be left behind
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+[visit it here](https://cash-flow-pied.vercel.app/)
 
 ## Features
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+- keep track of your incomes and expenses with modern graphs
+- add transactions and expenses
+- make budgets and save money
+- keep tracks of forex
 
 ## Getting Started
 
 ### Installation
+
+clone the repo
+
+```bash
+git clone https://github.com/DanielJaffritz/CashFlow.git
+```
 
 Install the dependencies:
 
@@ -31,6 +34,8 @@ Start the development server with HMR:
 ```bash
 npm run dev
 ```
+
+> make sure to get your forex api key based on the .env.example
 
 Your application will be available at `http://localhost:5173`.
 
@@ -78,10 +83,11 @@ Make sure to deploy the output of `npm run build`
 │   └── server/    # Server-side code
 ```
 
-## Styling
+## Stack used
 
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+- Reactjs
+- React router
+- TailwindCSS
+- Firestore and Auth0
 
----
-
-Built with ❤️ using React Router.
+![demo](public/assets/showcase.gif)

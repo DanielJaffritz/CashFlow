@@ -5,17 +5,16 @@ import { categories } from "~/constants";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { useAuth } from "~/hooks/authContext";
 
-
+//transactions' income modal
 const IncomeDialog = ({ isOpen, setIsOpen }: DialogProps) => {
   const increase = useBalanceStore((state) => state.increase);
   const db = getFirestore();
   const { user } = useAuth();
 
+  //saves Transaction in database
   const handleSave = async (values: FormValue) => {
     try {
       await increase(values.amount, user!.uid);
-
-
       await addDoc(collection(db, "transactions"), {
         userID: user!.uid,
         amount: values.amount,
@@ -31,6 +30,7 @@ const IncomeDialog = ({ isOpen, setIsOpen }: DialogProps) => {
 
   }
 
+  //prepares info before saving it into database
   const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

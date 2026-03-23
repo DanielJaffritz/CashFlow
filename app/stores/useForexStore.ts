@@ -11,6 +11,7 @@ interface ForexState {
 
 }
 
+//store for saving change rates of the day
 export const useForexStore = create<ForexState>()(
   persist(
     (set, get) => ({

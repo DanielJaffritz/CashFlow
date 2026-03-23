@@ -1,17 +1,19 @@
 import { ArcElement, Chart, Legend, Tooltip } from "chart.js";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { collection, getDocs, getFirestore, orderBy, query, where } from "firebase/firestore";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { useAuth } from "~/hooks/authContext"
 import { getExpensesBreakdown } from "~/utils/getCharts";
 Chart.register(ArcElement, Tooltip, Legend)
 
-
+//dashboard's pie chart
 const PieChart = () => {
-  const { user } = useAuth();
-  const db = getFirestore();
-  const [data, setData] = useState<{}>({});
+  const { user } = useAuth(); //gets user's data
+  const db = getFirestore(); //gets database
+  const [data, setData] = useState<{}>({}); //stores datasets
+
+  //query datasets from database
   const queryData = async () => {
     if (!user?.uid) return;
     let q = query(
@@ -26,6 +28,7 @@ const PieChart = () => {
     const dataQuery = querySnapshot.docs.map(doc => ({ amount: doc.data().amount, category: doc.data().category }))
     setData(getExpensesBreakdown(dataQuery))
   }
+  //values to be rendered
   const dataValues = {
     labels: Object.keys(data),
     datasets: [{

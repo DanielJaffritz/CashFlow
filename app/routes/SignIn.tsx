@@ -1,14 +1,12 @@
-import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { getFriendlyErrorMessage } from '~/constants/translator';
 
 const SignIn = () => {
 
   const navigate = useNavigate();
   const auth = getAuth();
-  const db = getFirestore();
   const provider = new GoogleAuthProvider();
   const [statusText, setStatusText] = useState('');
 

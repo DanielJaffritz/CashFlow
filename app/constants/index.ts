@@ -1,3 +1,4 @@
+//categories and its image
 export const categories = new Map([
   ['Groceries', 'assets/groceries.svg'],
   ['Rent', 'assets/rent.svg'],
@@ -7,6 +8,7 @@ export const categories = new Map([
   ['Transport', 'assets/transport.svg'],
   ['Entertainment', 'assets/entertainment.svg']
 ]);
+//dates
 export const dates = new Map([
   ['1 Day', 1],
   ['1 week', 7],

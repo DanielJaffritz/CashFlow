@@ -10,6 +10,7 @@ interface BalanceState {
   setExpense: (newExpense: number) => void; // para sincronizar desde Auth
 }
 
+//store for saving balance and expenses and increasing and decreasing their values
 export const useBalanceStore = create<BalanceState>()(
   (set) => ({
     balance: 0,

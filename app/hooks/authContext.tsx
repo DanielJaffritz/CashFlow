@@ -8,6 +8,7 @@ import type { AuthContextType, UserData } from '~/interfaces';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+//hook to get user's data
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -46,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error al cargar usuario');
+        setError(err instanceof Error ? err.message : 'Error loading user');
         setUser(null);
       } finally {
         setLoading(false);
@@ -66,7 +67,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth debe ser usado dentro de AuthProvider');
+    throw new Error('useAuth must be used inside auth provider');
   }
   return context;
 }

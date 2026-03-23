@@ -1,5 +1,4 @@
-import { FirebaseError } from 'firebase/app';
-
+//translates firebase errors to a more user's friendly error
 export const getFriendlyErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
     case 'auth/invalid-credential':

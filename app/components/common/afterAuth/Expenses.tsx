@@ -4,10 +4,11 @@ import { useBalanceStore } from "~/stores/useBalanceStore"
 
 
 const Expenses = () => {
-  const expense = useBalanceStore((state) => state.expense);
-  const decrease = useBalanceStore((state) => state.decrease);
+  const expense = useBalanceStore((state) => state.expense); //get user's expense
+  const decrease = useBalanceStore((state) => state.decrease); //get method to decrease user's total balance
   const { user } = useAuth();
 
+  //restarts user's expenses every month
   useEffect(() => {
     const lastCleanup = localStorage.getItem('lastMonthlyCleanup');
     const thisMonth = new Date().getMonth().toString();

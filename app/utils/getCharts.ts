@@ -1,6 +1,7 @@
 import { eachDayOfInterval, eachMonthOfInterval, format } from "date-fns";
 import { categories } from "~/constants";
 
+//gets data for lineal chart
 export const getIncomesAndExpenses = (
   transactions: any[],
   startDate: Date,
@@ -24,7 +25,7 @@ export const getIncomesAndExpenses = (
       return { labels: [], income: [], expense: [] };
   }
 
-  // 1. Agrupar montos por fecha y tipo
+  //group amounts by date and type
   const totals = transactions.reduce((acc, trans) => {
     const key = format(trans.date.toDate(), formatK);
     if (!acc[key]) acc[key] = { income: 0, expense: 0 };
@@ -35,12 +36,11 @@ export const getIncomesAndExpenses = (
     return acc;
   }, {} as Record<string, { income: number; expense: number }>);
 
-  // 2. Generar labels (eje X)
+  //gets labels
   const labels: string[] = interval.map(date =>
     type === 'daily' ? format(date, 'dd') : format(date, 'MMM')
   );
-
-  // 3. Generar series de datos (eje Y)
+  //gets data
   const income: any[] = interval.map(date => totals[format(date, formatK)]?.income || 0);
   const expense: any[] = interval.map(date => totals[format(date, formatK)]?.expense || 0);
 
@@ -48,6 +48,7 @@ export const getIncomesAndExpenses = (
   return { labels, income, expense, netIncome };
 }
 
+//gets expenses for pie chart
 export const getExpensesBreakdown = (transactions: any[]) => {
   const ExpenseCategories = Array.from(categories.keys()).reduce((acc: any, element: any) => {
     acc[element] = (acc[element] || 0)

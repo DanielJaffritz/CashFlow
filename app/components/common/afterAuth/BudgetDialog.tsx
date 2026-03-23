@@ -5,10 +5,12 @@ import { useAuth } from "~/hooks/authContext";
 import type { BudgetFormValue, DialogProps } from "~/interfaces"
 import { addDays } from 'date-fns'
 
+//budget modal(component of transactions route)
 const BudgetDialog = ({ isOpen, setIsOpen }: DialogProps) => {
-  const db = getFirestore();
-  const { user } = useAuth();
+  const db = getFirestore(); //get database
+  const { user } = useAuth(); //get user data
 
+  //save budget in database
   const handleSave = async (values: BudgetFormValue) => {
     try {
       await setDoc(doc(db, 'budgets', user!.uid + values.category), {
@@ -31,6 +33,7 @@ const BudgetDialog = ({ isOpen, setIsOpen }: DialogProps) => {
     }
 
   }
+  //prepare budget info before saving it
   const HandleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

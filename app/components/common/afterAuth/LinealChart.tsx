@@ -7,13 +7,14 @@ import { getIncomesAndExpenses } from '~/utils/getCharts'
 import { endOfMonth, endOfYear, startOfMonth, startOfYear, subMonths, subYears } from 'date-fns'
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
 
-
+//dashboard's lineal chart
 const LinealChart = () => {
-  const db = getFirestore();
-  const { user } = useAuth();
-  const [data, setData] = useState<{ labels: string[], income: any[], expense: any[] }>({ labels: [], income: [], expense: [] });
+  const db = getFirestore(); //gets database
+  const { user } = useAuth(); //gets user's data
+  const [data, setData] = useState<{ labels: string[], income: any[], expense: any[] }>({ labels: [], income: [], expense: [] });  //stores datasets
   const [netGrowth, setNetGrowth] = useState<number>(1)
 
+  //query datasets from database and last period's net income
   const queryResult = async (StartOfLastPeriod: Date, startDate: Date, endDate: Date, type: string) => {
     if (!user?.uid) return;
 
@@ -38,6 +39,7 @@ const LinealChart = () => {
     const oldNetIncome = dataSum.reduce((a, b) => a + (b.type === 'income' ? b.amount : -b.amount), 0);
     setNetGrowth((actualNetIncome - oldNetIncome) / oldNetIncome)
   }
+  //values to be rendered
   const dataValues = {
     labels: data.labels,
     datasets: [
@@ -58,6 +60,7 @@ const LinealChart = () => {
       },
     ]
   }
+  //options for chart
   const options = {
     scales: {
       x: {

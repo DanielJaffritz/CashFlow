@@ -2,7 +2,7 @@ import { useBalanceStore } from "~/stores/useBalanceStore"
 
 
 const TotalBalance = () => {
-  const balance = useBalanceStore((state) => state.balance);
+  const balance = useBalanceStore((state) => state.balance); //gets user's total balance
   return (
     <div className="flex flex-col bg-white shadow p-2 md:p-5 rounded-2xl border border-general-text dark:bg-zinc-800 dark:border-transparent">
       <div className="flex flex-row items-center">
